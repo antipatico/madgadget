@@ -23,6 +23,11 @@ javaoptions='-Dfile.encoding=utf-8'
 java "${javaoptions}" -jar "${jarpath}" "$@"
 ```
 
+### Install from PyPi
+
+```bash
+python3 -m pip install madgadget
+```
 
 ### Installation from source
 
