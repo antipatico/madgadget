@@ -1,17 +1,18 @@
+import shutil
+import subprocess
 from pathlib import Path
-from tempfile import TemporaryDirectory, NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
+
+import lief
+
 from ..exceptions import (
-    AndroidUnpackError,
-    ApktoolMissingError,
-    ApktoolError,
     AndroidPatchError,
+    AndroidUnpackError,
+    ApktoolError,
+    ApktoolMissingError,
 )
 from ..FridaGadget import FridaArch, FridaGadget
 from ..FridaScript import FridaScript
-import subprocess
-import lief
-import shutil
-from xml.etree.ElementTree import ElementTree
 
 
 class AndroidPatcher:

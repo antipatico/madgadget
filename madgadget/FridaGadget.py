@@ -1,8 +1,9 @@
-from enum import Enum
-from pathlib import Path
-import semver
 import secrets
 import string
+from enum import Enum
+from pathlib import Path
+
+import semver
 
 
 class FridaArch(Enum):

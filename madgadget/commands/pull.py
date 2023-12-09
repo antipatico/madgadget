@@ -1,6 +1,7 @@
-from ppadb.client import Client as AdbClient
 import sys
 from pathlib import Path
+
+from ppadb.client import Client as AdbClient
 
 
 def pull(package_name: str, output: str | Path | None):

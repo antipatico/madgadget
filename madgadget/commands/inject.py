@@ -1,9 +1,10 @@
 import sys
 from pathlib import Path
-from ..GadgetManager import GadgetManager
+
 from ..android.AndroidPatcher import AndroidPatcher
 from ..FridaGithub import GithubNotReachableError
 from ..FridaScript import FridaScript
+from ..GadgetManager import GadgetManager
 
 
 def inject(apk: Path, script_path: Path, output: Path):

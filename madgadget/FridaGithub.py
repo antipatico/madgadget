@@ -1,10 +1,12 @@
 # Inspired by Objection
 import lzma
-import requests
 from functools import lru_cache
-import semver
-from .exceptions import GithubNotReachableError
 from pathlib import Path
+
+import requests
+import semver
+
+from .exceptions import GithubNotReachableError
 
 
 class FridaGithub:

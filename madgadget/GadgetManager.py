@@ -1,7 +1,9 @@
 from pathlib import Path
+
 import semver
-from .FridaGithub import FridaGithub
+
 from .FridaGadget import FridaArch, FridaGadget, FridaOS
+from .FridaGithub import FridaGithub
 
 
 class GadgetManager:
