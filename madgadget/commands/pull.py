@@ -2,7 +2,8 @@ from ppadb.client import Client as AdbClient
 import sys
 from pathlib import Path
 
-def pull(package_name: str, output: str):
+
+def pull(package_name: str, output: str | Path | None):
     client = AdbClient(host="127.0.0.1", port=5037)
     device = next(iter(client.devices()))
     if device is None:
@@ -10,9 +11,11 @@ def pull(package_name: str, output: str):
         sys.exit(1)
     info = device.shell(f"pm path {package_name}")
     if len(info) == 0:
-        print(f"ERROR: cannot find package '{package_name}' installed on adb connected device")
+        print(
+            f"ERROR: cannot find package '{package_name}' installed on adb connected device"
+        )
         sys.exit(1)
-    apks = [ p.split(":")[1] for p in info.split()]
+    apks = [p.split(":")[1] for p in info.split()]
     base_apk = apks[0]
     split_config_apks = apks[1:]
     is_split_config = len(split_config_apks) > 0
