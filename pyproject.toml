@@ -25,7 +25,9 @@ classifiers=[
 ]
 
 [project.urls]
+Github = "https://github.com/antipatico/madgadget"
 Home = "https://github.com/antipatico/madgadget"
+Issues = "https://github.com/antipatico/madgadget/issues"
 
 [project.scripts]
 madgadget = "madgadget.commands.main:main"
