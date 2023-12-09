@@ -9,10 +9,10 @@ readme = "README.md"
 license = {file = "LICENSE"}
 dynamic = ["version", "description"]
 dependencies = [
-    "lief",
-    "requests",
-    "semver",
-    "pure-python-adb"
+    "lief ~= 0.13.2",
+    "requests ~= 2.31.0",
+    "semver ~= 3.0.2",
+    "pure-python-adb ~= 0.3.0.dev0"
 ]
 classifiers=[
         'Development Status :: 4 - Beta',
