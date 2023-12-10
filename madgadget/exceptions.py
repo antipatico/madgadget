@@ -16,3 +16,7 @@ class ApktoolMissingError(AndroidUnpackError, ApktoolError):
 
 class AndroidPatchError(Exception):
     pass
+
+
+class ZipalignError(Exception):
+    pass
