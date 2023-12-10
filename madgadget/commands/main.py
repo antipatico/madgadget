@@ -1,8 +1,9 @@
 import argparse
 from pathlib import Path
 
-from .inject import inject
-from .pull import pull
+from ..version import __version__
+from .inject import inject_cli, inject_parser
+from .pull import pull_cli, pull_parser
 
 
 def main():
@@ -11,45 +12,32 @@ def main():
         description="Embed frida gadgets into android multiarch applications",
         epilog="Author: Jacopo (antipatico) Scannella",
     )
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s v{__version__}"
+    )
 
     sub_parsers = parser.add_subparsers(
         help="Desired action", dest="action", required=True
     )
 
-    # create the parser for the "pull" command
+    # Add subcommands
     parser_pull = sub_parsers.add_parser(
         "pull", help="Pull a (split) package from a connected device"
     )
-    parser_pull.add_argument(
-        "package_name",
-        help="The name of the package you want to pull (E.G. com.android.settings)",
-    )
-    parser_pull.add_argument("-o", "--output", help="Output directory path")
-
-    # create the parser for the "inject" command
     parser_inject = sub_parsers.add_parser(
         "inject", help="Inject frida-gadget inside a locally-stored package"
     )
-    parser_inject.add_argument(
-        "apk", help="Android apk you want to inject frida gadget to"
-    )
-    parser_inject.add_argument(
-        "script", help="Frida script you want to inject, javascript only"
-    )
-    parser_inject.add_argument("-o", "--output", help="Output file")
+
+    # Add flags to command parsers
+    inject_parser(parser_inject)
+    pull_parser(parser_pull)
 
     args = parser.parse_args()
 
     if args.action == "inject":
-        apk = Path(args.apk)
-        script_path = Path(args.script)
-        if args.output is None:
-            candidate = f"{apk}".replace(".apk", ".madgadget.apk")
-            args.output = candidate if candidate != f"{apk}" else f"{apk}.madgadget"
-        output = Path(args.output)
-        inject(apk, script_path, output)
+        inject_cli(args)
     elif args.action == "pull":
-        pull(args.package_name, args.output)
+        pull_cli(args)
 
 
 if __name__ == "__main__":

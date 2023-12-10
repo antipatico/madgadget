@@ -4,6 +4,18 @@ from pathlib import Path
 from ppadb.client import Client as AdbClient
 
 
+def pull_parser(parser):
+    parser.add_argument(
+        "package_name",
+        help="The name of the package you want to pull (E.G. com.android.settings)",
+    )
+    parser.add_argument("-o", "--output", help="Output directory path")
+
+
+def pull_cli(args):
+    pull(args.package_name, args.output)
+
+
 def pull(package_name: str, output: str | Path | None):
     client = AdbClient(host="127.0.0.1", port=5037)
     device = next(iter(client.devices()))
