@@ -20,3 +20,11 @@ class AndroidPatchError(Exception):
 
 class ZipalignError(Exception):
     pass
+
+
+class APKEditorError(Exception):
+    pass
+
+
+class APKEditorMissingError(AndroidUnpackError, APKEditorError):
+    pass

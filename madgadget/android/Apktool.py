@@ -26,7 +26,7 @@ class Apktool:
 
     def unpack(self, input_apk: Path, output_dir: Path):
         result = subprocess.run(
-            [self.exe, "d", input_apk, "-f", "-o", output_dir, "-r", "-s"]
+            [self.exe, "d", input_apk, "-f", "-o", output_dir, "-s", "-r"]
         )
         if result.returncode != 0:
             raise ApktoolError("Please refer to the above apktool logs")
@@ -37,3 +37,6 @@ class Apktool:
             if result.returncode != 0:
                 raise ApktoolError("Please refer to the above apktool logs")
             zipalign(f.name, output_apk)
+
+    def libs_path(self):
+        return Path("lib")

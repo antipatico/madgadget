@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 
 from ..android.AndroidPatcher import AndroidPatcher
+from ..android.APKEditor import APKEditor
 from ..android.Apktool import Apktool
 from ..FridaGithub import GithubNotReachableError
 from ..FridaScript import FridaScript
@@ -14,19 +15,26 @@ def inject_parser(parser):
         "script", help="Frida script you want to inject, javascript only"
     )
     parser.add_argument("-o", "--output", help="Output file")
+    parser.add_argument(
+        "-A",
+        "--apktool",
+        help="Use Apktool instead of APKEditor (Default: False)",
+        action="store_true",
+    )
 
 
 def inject_cli(args):
+    tool = APKEditor() if not args.apktool else Apktool()
     apk = Path(args.apk)
     script_path = Path(args.script)
     if args.output is None:
         candidate = f"{apk}".replace(".apk", ".madgadget.apk")
         args.output = candidate if candidate != f"{apk}" else f"{apk}.madgadget"
     output = Path(args.output)
-    inject(apk, script_path, output)
+    inject(apk, script_path, output, tool)
 
 
-def inject(apk: Path, script_path: Path, output: Path):
+def inject(apk: Path, script_path: Path, output: Path, tool):
     script = FridaScript(script_path)
     gm = GadgetManager()
     try:
@@ -42,7 +50,6 @@ def inject(apk: Path, script_path: Path, output: Path):
         else:
             print(f"WARNING: cannot reach Github to check for frida upgrades.")
 
-    tool = Apktool()
     patcher = AndroidPatcher(apk, tool)
     patcher.unpack()
 

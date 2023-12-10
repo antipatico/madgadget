@@ -19,8 +19,8 @@ class AndroidPatcher:
     def __init__(self, apk_path: Path, tool) -> None:
         self.apk_path = apk_path
         self.tool = tool
-        self.tempdir = TemporaryDirectory(suffix=".maxgadget")
-        self.libs_path = Path(self.tempdir.name) / "lib"
+        self.tempdir = TemporaryDirectory(suffix=".madgadget")
+        self.libs_path = Path(self.tempdir.name) / tool.libs_path()
         self.manifest_path = Path(self.tempdir.name) / "AndroidManifest.xml"
 
     def unpack(self):
@@ -56,6 +56,7 @@ class AndroidPatcher:
         target_libs = filter(
             lambda f: f.is_file() and f.name.endswith(".so"), target_path.iterdir()
         )
+        # TODO: graph of dependencies, select the most top level one
         for lib in target_libs:
             elf = lief.parse(f"{lib}")
             if elf is None:
