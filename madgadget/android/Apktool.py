@@ -7,10 +7,12 @@ from .Zipalign import zipalign
 
 
 class Apktool:
+    exe = "apktool"
+
     def __init__(self):
         try:
             is_present = subprocess.run(
-                ["apktool", "-version"],
+                [self.exe, "-version"],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 stdin=subprocess.DEVNULL,
@@ -23,13 +25,15 @@ class Apktool:
             )
 
     def unpack(self, input_apk: Path, output_dir: Path):
-        result = subprocess.run(["apktool", "d", input_apk, "-f", "-o", output_dir])
+        result = subprocess.run(
+            [self.exe, "d", input_apk, "-f", "-o", output_dir, "-r", "-s"]
+        )
         if result.returncode != 0:
             raise ApktoolError("Please refer to the above apktool logs")
 
     def build(self, input_dir: Path, output_apk: Path):
         with NamedTemporaryFile() as f:
-            result = subprocess.run(["apktool", "b", input_dir, "-o", f.name])
+            result = subprocess.run([self.exe, "b", input_dir, "-o", f.name])
             if result.returncode != 0:
                 raise ApktoolError("Please refer to the above apktool logs")
             zipalign(f.name, output_apk)
